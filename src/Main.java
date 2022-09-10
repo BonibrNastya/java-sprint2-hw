@@ -12,53 +12,53 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-
         while (true) {
             printMenu();
-            int userInput = scanner.nextInt();
-            if (userInput == 1) {
-                for (int i = 1; i < 4; i++) {
-                    String monthName = (i + " месяц");
-                    String data = FileReader.readMonthReport(i);
-                    MonthlyReport monthlyReport = new MonthlyReport(data, monthName);
-                    monthlyReports.add(monthlyReport);
-                }
-                System.out.println("Операция завершена.\n");
-                //считать месячные отчеты
-            } else if (userInput == 2) {
-                String data = FileReader.readYearReport();
-                yearlyReport = new YearlyReport(data);
-                System.out.println("Операция завершена.\n");
-                //считать годовой отчет
-            } else if (userInput == 3) {
-                if (!checkMonthlyData() && !checkYearData()) {
-                    System.out.println("Сначала необходимо считать отчёты.\n");
-                } else {
-                    checkReports();
-                }
-            } else if (userInput == 4) {
-                if (!checkMonthlyData()) {
-                    System.out.println("Необходимо считать месячные отчёты.\n");
-                } else {
-                    for (MonthlyReport report : monthlyReports) {
-                        report.printMonthStatistics();
+            String userInput = scanner.nextLine();
+            switch (userInput) {
+                case "1":
+                    for (int i = 1; i < 4; i++) {
+                        String monthName = (i + " месяц");
+                        String data = FileReader.readMonthReport(i);
+                        MonthlyReport monthlyReport = new MonthlyReport(data, monthName);
+                        monthlyReports.add(monthlyReport);
                     }
-                }
-                //вывести информацию о всех месячных отчетах
-            } else if (userInput == 5) {
-                if (!checkYearData()) {
-                    System.out.println("Необходимо считать годовой отчёт.\n");
-                } else {
-                    yearlyReport.printYearStatistics();
-                }
-                // вывести информацию о годовом отчете
-            } else if (userInput == 0) {
-                System.out.println("Выход");
-                break;
-            } else {
-                System.out.println("Извините, такой команды пока нет.\n");
+                    System.out.println("Операция завершена.\n");
+                    break;
+                case "2":
+                    String data = FileReader.readYearReport();
+                    yearlyReport = new YearlyReport(data);
+                    System.out.println("Операция завершена.\n");
+                    break;
+                case "3":
+                    if (!checkMonthlyData() || !checkYearData()) {
+                        System.out.println("Сначала необходимо считать отчёты.\n");
+                    } else {
+                        checkReports();
+                    }
+                    break;
+                case "4":
+                    if (!checkMonthlyData()) {
+                        System.out.println("Необходимо считать месячные отчёты.\n");
+                    } else {
+                        for (MonthlyReport report : monthlyReports) {
+                            report.printMonthStatistics();
+                        }
+                    }
+                    break;
+                case "5":
+                    if (!checkYearData()) {
+                        System.out.println("Необходимо считать годовой отчёт.\n");
+                    } else {
+                        yearlyReport.printYearStatistics();
+                    }
+                    break;
+                case "0":
+                    System.out.println("Выход");
+                    break;
+                default:
+                    System.out.println("Извините, такой команды пока нет.\n");
             }
-
         }
     }
 
